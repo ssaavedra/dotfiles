@@ -1,0 +1,53 @@
+#!/bin/bash
+
+##################################################
+# Script created to spawn an emacs editor
+# 
+# This script was created to join two beautiful
+# programs such as screen and emacs.
+# 
+# The script checks whether emacs is running within
+# a screen or not. If it is, then this script does
+# absolutely nothing.
+# If it is not, it starts a screen in background
+# (`screen -U -dmS emacs emacs`).
+# Anyway, as a side effect, this script echoes
+# the PID of the current (or new)
+# emacs-within-screen process so it can be called
+# by my emacs launcher, 'e'.
+#
+# Return values:
+#  * 1: emacs is already running in a screen
+#  * 0: emacs has just been spawned
+##################################################
+## Author: Santiago Saavedra López.
+## License: GNU General Public License version 3
+##################################################
+
+emacs-running-p () {
+pid=$(screen -ls | grep emacs | sed -E -e "s/^[^0-9]+([0-9]+)\.emacs.*$/\1/g")
+
+	if [ "$pid" != "" ]; then
+		if [ -n "$1" ]; then
+			echo $pid
+		fi
+		return 0
+	else
+		return 1
+	fi
+}
+
+spawn-emacs () {
+#    screen -U -DmS emacs emacs
+	screen -U -dmS emacs emacs
+	emacs-running-p verbose
+}
+
+
+if emacs-running-p verbose; then
+	exit 1
+else
+	spawn-emacs
+	exit 0
+fi
+

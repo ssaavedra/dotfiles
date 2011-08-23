@@ -1,0 +1,37 @@
+#!/bin/bash
+
+##################################################
+# Script created to open elements in a X
+# Environment of which I use.
+# Currently this script supports:
+#  * OSX Cocoa
+#  * Gnome
+#
+# For more window managers, please send a request.
+# I will include it, provided I find no bugs ;-)
+##################################################
+## Author: Santiago Saavedra López.
+## License: MIT License.
+##################################################
+
+
+OSNAME=`uname -s`
+
+if [ "$OSNAME" == "Darwin" ]; then
+	# OS is Mac OS X
+	## Just open file
+	cmd="open"
+else
+	## TODO: Difference between gnome and other window managers
+	cmd="gnome-open"
+fi
+
+if [ -z "$1" ]; then
+	params="."
+else
+	params=$@
+fi
+
+$cmd $params
+
+

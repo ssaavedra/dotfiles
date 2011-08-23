@@ -1,0 +1,12 @@
+[submodule "vim/vimfiles/vim-pathogen"]
+	path = vim/vimfiles/vim-pathogen
+	url = https://github.com/tpope/vim-pathogen.git
+[submodule "vim/vimfiles/bundle/Java-Syntax-and-Folding"]
+	path = vim/vimfiles/bundle/Java-Syntax-and-Folding
+	url = git@github.com:ssaavedra/java-syntax-and-folding.git
+[submodule "vim/vimfiles/bundle/git-vim"]
+	path = vim/vimfiles/bundle/git-vim
+	url = https://github.com/motemen/git-vim.git
+[submodule "vim/vimfiles/bundle/syntastic"]
+	path = vim/vimfiles/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git

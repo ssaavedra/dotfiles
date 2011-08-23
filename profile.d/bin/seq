@@ -1,0 +1,36 @@
+#!/bin/bash
+
+##################################################
+# basic 'seq' replacement
+# 
+# This little script has been made because in
+# Mac OS X we have no 'seq' but instead 'jot', and
+# I'm used to do scripts like:
+# for i in seq 1 500; do whatever; done
+#
+# This just serves for the purpose.
+##################################################
+# Author: Santiago Saavedra López.
+# License: BSD Style.
+##################################################
+
+
+SEQ="NO"
+if [ -f "/bin/seq" ]; then
+	SEQ="/bin/seq"
+elif [ -f /usr/bin/seq ]; then
+	SEQ="/usr/bin/seq"
+fi
+if [ $SEQ != "NO" ]; then
+	$SEQ $@
+	exit $?
+fi
+
+if [ -z "$2" ]; then
+	jot $1
+else
+	hop=$(( $2 - $1 + 1 ))
+	jot $hop $1
+fi
+
+

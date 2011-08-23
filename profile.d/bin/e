@@ -1,0 +1,47 @@
+#!/bin/bash
+
+##################################################
+# This script makes editing files more pleasant.
+#
+# Provided you use emacs for editing files, you
+# may like this script for launching emacs.
+#
+# Requirements:
+#  * `emacs-autospawn` script by me.
+#  * GNU emacs with (server-start in your .emacs)
+#  * GNU screen
+#
+# This script first tests about emacs having already
+# been launched with my script.
+# If you don't specify a file, the mission of this
+# script is to attach you to the running emacs.
+#
+# If you do specify a file list, then this helper
+# runs emacsclient --no-wait and then attaches you
+# to the running emacs process.
+#
+# If anybody comes with an idea on how to replace
+# the --no-wait with another kind of job control
+# I will take a look at it.
+##################################################
+## Author: Santiago Saavedra López.
+## License: GNU General Public License version 3
+##################################################
+
+### E is a helper to get an emacs session from a screen.
+
+pid=$(emacs-autospawn)
+
+if [ -z "$1" ]; then
+	# No files to edit
+	screen -x $pid
+else
+	# Start by editing files
+	sleep .25
+	emacsclient --no-wait $@
+	screen -x $pid
+fi
+
+
+
+

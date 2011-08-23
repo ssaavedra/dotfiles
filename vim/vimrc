@@ -1,0 +1,138 @@
+
+set nocompatible
+source $VIMRUNTIME/vimrc_example.vim
+
+"" Load Pathogen:
+filetype off
+call pathogen#runtime_append_all_bundles()
+" Pathogen loaded
+
+syntax enable " Resaltar sintaxis
+filetype on " Por tipo de archivo
+filetype plugin indent on
+
+
+set number " Number lines by default
+set autoindent " Fallback
+set smartindent " Indentar chachi
+set showmatch " Show matching parentheses / brackets
+
+"" Maquetación
+set noexpandtab
+set tabstop=8
+set shiftwidth=8
+set softtabstop=8
+set cinoptions+=j1
+
+" Errors exist:
+set undolevels=2000 " We all make mistakes
+set history=1000
+set noerrorbells " Make Vim tranquil
+
+set nohls " NoHighlightSearch
+
+" Vim sugar
+set modeline
+set modelines=4
+set cpoptions+=I
+set whichwrap=b,s,[,]
+set wildmode=full
+set nobackup
+
+" Different colorschemes I picked..
+colorscheme default
+colorscheme desert256
+colorscheme pablo
+colorscheme elflord
+
+
+" set backspace=eol,start " No quitar autoindentación
+
+set ignorecase
+set smartcase   " smart? Only sensitive if you put anything in caps
+
+" Awesome: remap jj to escape in insert mode.
+inoremap jj <Esc>
+inoremap jkj <Esc>:w<CR>
+nnoremap JJJJ <Nop>
+
+let mapleader = "\<Space>"
+
+" Búsqueda incremental
+set incsearch
+set hlsearch " highlight of what's searched
+
+" Command completing useful:
+set wildmenu
+
+" Keep at least 3 lines at the edges of the screen
+set scrolloff=3
+
+" Press space to clear search hilighting and
+" any other shown message
+" nnoremap <silent> <Space> :silent noh<Bar>echo<CR>
+
+" Tabs!
+" nnoremap <silent> <F3> :Tlist<CR>
+" nnoremap <silent> <C-Left> :tabprevious<CR>
+" nnoremap <silent> <C-Right> :tabnext<CR>
+" nnoremap <silent> <C-t> :tabnew<CR>
+
+" Create Blank Newlines and stay in Normal mode
+" nnoremap <silent> zj o<Esc>
+" nnoremap <silent> zk O<Esc>
+
+set ruler
+
+" Set show whitespace
+set listchars=tab:>-,trail:·,eol:$
+nmap <silent> <leader>s :set nolist!<CR>
+
+
+"" Syntax Folding:
+autocmd FileType java set foldmethod=syntax
+set foldclose=all
+set foldclose=
+set foldcolumn=0
+set foldenable
+set foldopen=block,insert,percent,search,tag,undo
+set foldopen=all
+set foldlevel=1
+set foldnestmax=4
+
+""""""" CHANGES SMALL ENOUGH NOT TO BE IN A FTPLUGIN
+"
+" FORTRAN
+autocmd FileType fortran let fortran_free_source=1
+autocmd FileType fortran let fortran_have_tabs=1
+
+" TeX 
+autocmd FileType tex nnoremap <Leader>pl :pdflatex %<CR><CR>
+
+
+""" Space errors:
+"" Highlight extra whitespace
+nnoremap <silent> <Leader>wa :silent :highlight ExtraWhitespace ctermbg=darkred guibg=darkgreen<CR>
+nnoremap <silent> <Leader>ws :silent :highlight ExtraWhitespace ctermbg=None guibg=None<CR>
+highlight ExtraWhitespace ctermbg=None guibg=None
+"highlight ExtraWhitespace ctermbg=red guibg=red
+autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$\| \+\ze\t/
+
+"" Mapping borrowed from Emacs
+inoremap <silent> <C-e> <Esc>A
+inoremap <silent> <C-a> <Esc>0i
+inoremap <silent> <M-f> <Esc>wi
+
+
+
+let c_space_errors = 1
+let java_space_errors = 1
+let c_no_trail_space_error = 1
+let c_no_tab_space_error = 1
+
+
+" Useful in es_ES.UTF8 keyboard, even more in TeX
+map ç \
+
+

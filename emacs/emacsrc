@@ -1,0 +1,49 @@
+
+
+; Santiago Saavedra.
+; My configuration for Emacs.
+
+
+(setq-default indent-tabs-mode t)	; Use tabs when indenting
+(column-number-mode t)			; Show column with line number
+(defalias 'qrr 'query-replace-regexp)	; Define this alias
+(global-font-lock-mode 1)		; Color enabled
+(show-paren-mode 1)			; Show parentheses pairs
+(setq require-final-newline 't)		; Always put newline at the end of a file
+(setq ispell-dictionary "english")	; Set ispell dictionary
+(setq calendar-week-start-day 1)	; Week starts monday
+(setq european-calendar-style 't)
+(windmove-default-keybindings)
+(setq undo-limit 100000)
+(setq tab-width 4)
+
+
+
+;; Set load-path:
+(let ((default-directory "~/.emacs.d/site-lisp"))
+  (normal-top-level-add-to-load-path '("."))
+  (normal-top-level-add-subdirs-to-load-path))
+
+
+;; Requiring my own packages
+(require 'my-autoload)
+
+;; Linum modifications
+(setq linum-format "%d ")
+(global-linum-mode 1)			; Automatically enable linum-mode
+
+;; Whitespace modifications
+
+;; Indentation modifications
+(setq c-indent-level 8)
+(setq tab-wdith 8)
+
+;; Indentation styles are set in CC with C-c .
+;; Partial list of styles:
+;; gnu k&r bsd stroustrup linux python java user
+
+
+; Server mode
+(server-start)
+
+
