@@ -8,6 +8,7 @@
 
 ;; Slime
 (setq inferior-lisp-program "/usr/local/bin/sbcl")
+(setq common-lisp-hyperspec-root "http://localhost/clhs/HyperSpec/")
 (require 'slime)
 (slime-setup)
 

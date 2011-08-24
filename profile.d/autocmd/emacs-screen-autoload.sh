@@ -11,7 +11,7 @@
 
 
 if emacs-autospawn >/dev/null; then
-    echo "Emacs is spawming in the background."
+    echo "Emacs is spawning in the background."
 else
     echo "Remember: You have a copy of emacs running in the background."
 fi
