@@ -40,3 +40,7 @@ alias ec="emacsclient"
 
 alias sbcl="rlwrap sbcl"
 
+## Useful only in Archlinux, doesn't hurt
+alias pacman="sudo pacman"
+
+
