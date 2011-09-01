@@ -6,7 +6,10 @@
 DEFPATH=${HOME}/.dotfiles
 INSTALLPATH ?= ${DEFPATH}
 
-all: clone profile vimrc vimfiles emacs
+all: fetch profile vimrc vimfiles emacsrc
+
+fetch:
+	git pull origin
 
 clone:
 	git clone git://github.com/ssaavedra/dotfiles ${INSTALLPATH}
@@ -22,6 +25,6 @@ vimrc:
 vimfiles:
 	ln -s ${INSTALLPATH}/vim/vimfiles ~/.vim
 
-emacs:
-	ln -s ${INSTALLPATH}/emacs/emacsrc ~/emacs
+emacsrc:
+	ln -s ${INSTALLPATH}/emacs/emacsrc ~/.emacs
 	ln -s ${INSTALLPATH}/emacs/emacs.d ~/.emacs.d
