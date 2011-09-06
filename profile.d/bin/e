@@ -31,6 +31,10 @@
 ### E is a helper to get an emacs session from a screen.
 
 pid=$(emacs-autospawn)
+TMP=${TMPDIR:-/tmp}
+scd=$TMP/screen-emacs
+
+export SCREENDIR=$scd
 
 if [ -z "$1" ]; then
 	# No files to edit

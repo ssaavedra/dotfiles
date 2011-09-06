@@ -24,18 +24,68 @@
 ## License: GNU General Public License version 3
 ##################################################
 
-emacs-running-p () {
-pid=$(screen -ls | grep emacs | sed -E -e "s/^[^0-9]+([0-9]+)\.emacs.*$/\1/g")
+TMP=${TMPDIR:-/tmp}
+scd="$TMP/screen-emacs"
+mkdir -p $scd
+chmod 700 $scd
 
-	if [ "$pid" != "" ]; then
-		if [ -n "$1" ]; then
-			echo $pid
-		fi
-		return 0
-	else
-		return 1
-	fi
+export SCREENDIR=$scd
+
+
+
+function emacs-running-p () {
+
+# Take only meaningful lines
+pid=$(screen -ls | grep [\0-9\]\\. |sed -E -e "s/^[^0-9]+([0-9]+)\..*$/\1/g")
+
+if [[ "x${pid}" = "x" ]]; then
+	return 1
+else
+	echo $pid
+	return 0
+fi
+
+
 }
+
+
+#
+#
+#function emacs-getpid () {
+#echo $SCREENDIR
+#	out=$(screen -ls)
+#	status=$?
+#
+#	if [[ $status != 1 ]]; then
+#		pid=$(echo $out | grep \.emacs | sed -E -e "s/^[^0-9]+([0-9]+)\.emacs.*$/\1/g")
+#		return 0
+#	else
+#		return 1
+#	fi
+#}
+#
+#function emacs-running-p () {
+##pid=$(SCREENDIR=$scd screen -ls | grep emacs | sed -E -e "s/^[^0-9]+([0-9]+)\.emacs.*$/\1/g")
+#emacs-getpid
+#
+#echo $status , $out
+#
+#	if [[ $status -ne 0 ]]; then
+#		return $status
+#	else
+#		echo $pid
+#		return 0
+#	fi
+#
+#	if [ "$pid" != "" ]; then
+#		if [ -n "$1" ]; then
+#			echo $pid
+#		fi
+#		return 0
+#	else
+#		return 1
+#	fi
+#}
 
 spawn-emacs () {
 #    screen -U -DmS emacs emacs
@@ -50,4 +100,5 @@ else
 	spawn-emacs
 	exit 0
 fi
+
 
