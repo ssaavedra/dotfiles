@@ -51,12 +51,11 @@ platform-specific () {
 }
 
 
-UNIDIR="~/Documents/Uni"
-EIDIR="${UNIDIR}/EI"
-CURRENTCOURSE=4/Q5
+UNIDIR="~/UDC-Dropbox/Dropbox/Uni"
+EIDIR="${UNIDIR}/"
+CURRENTCOURSE=Q5
 
 . $HOME/.profile.d/loader.profile
 
 platform-specific
-
 
