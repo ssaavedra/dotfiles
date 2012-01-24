@@ -44,6 +44,7 @@ colorscheme default
 colorscheme desert256
 colorscheme pablo
 colorscheme elflord
+colorscheme molokai
 
 
 " set backspace=eol,start " No quitar autoindentación
@@ -87,6 +88,13 @@ set ruler
 " Set show whitespace
 set listchars=tab:>-,trail:·,eol:$
 nmap <silent> <leader>s :set nolist!<CR>
+
+""""" VimOrganizer
+autocmd! BufRead,BufWrite,BufWritePost,BufNewFile *.org
+autocmd BufEnter *.org call org#SetOrgFileType()
+let g:org_command_for_emacsclient = 'emacsclient'
+let g:agenda_files = ["~/Dropbox/Personal/vim-agenda"]
+
 
 
 "" Syntax Folding:
@@ -135,4 +143,28 @@ let c_no_tab_space_error = 1
 " Useful in es_ES.UTF8 keyboard, even more in TeX
 map ç \
 
+" Edit Markdown files
+autocmd BufRead *.md set filetype=markdown
 
+"" Commands to aid in every day things
+cnoreab wv vsplit
+cnoreab ws split
+cnoreab dir vsplit %:p:h
+
+
+
+
+
+""""" Happily edit vimrc :)
+cnoreab vimrc vsplit $MYVIMRC
+
+autocmd FileType vim cnoreab <expr> q VimRCSourceClose()
+
+if exists("*VimRCSourceClose")
+else
+	func VimRCSourceClose()
+		source %
+		return 'wq'
+	endfunc
+endif
+" Hello
