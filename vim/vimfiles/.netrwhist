@@ -1,4 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='/home/i/santiago.saavedral/Documents/2EI/TP/git-tpg111/p3/build'
-let g:netrw_dirhist_2='/home/i/santiago.saavedral/Documents/2EI/TP/git-tpg111/p3/src/model'
