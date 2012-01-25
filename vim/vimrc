@@ -161,7 +161,7 @@ cnoreab vimrc vsplit $MYVIMRC
 
 if exists("*VimRCSourceClose")
 else
-	autocmd BufEnter $MYVIMRC cnoreab <buffer> <expr> q VimRCSourceClose()
+	autocmd BufEnter $MYVIMRC cnoreab <buffer> <expr> wq VimRCSourceClose()
 
 	func VimRCSourceClose()
 		source %
