@@ -10,3 +10,10 @@
 [submodule "vim/vimfiles/bundle/syntastic"]
 	path = vim/vimfiles/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
+[submodule "vim/vimfiles/bundle/VimOrganizer"]
+	path = vim/vimfiles/bundle/VimOrganizer
+	url = https://github.com/hsitz/VimOrganizer.git
+[submodule "vim/vimfiles/bundle/vjde"]
+	path = vim/vimfiles/bundle/vjde
+	url = https://github.com/cespare/vjde.git
+
