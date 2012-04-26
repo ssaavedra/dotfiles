@@ -16,4 +16,6 @@
 [submodule "vim/vimfiles/bundle/vjde"]
 	path = vim/vimfiles/bundle/vjde
 	url = https://github.com/cespare/vjde.git
-
+[submodule "profile.d/zsh/auto-fu"]
+	path = profile.d/zsh/auto-fu
+	url = https://github.com/hchbaw/auto-fu.zsh.git
