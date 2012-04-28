@@ -1,5 +1,22 @@
 #!/bin/bash
 
+##################################################
+# basic program for telling C types size
+# 
+# I felt I was in need of something like
+# this to align fields in a structure.
+# I felt bored and I coded it.
+# The unlink inside the main() works, though
+# you might rather delete the exec(1) call and
+# just add an rm command after that.
+#
+# That would be slower, though.
+##################################################
+# Author: Santiago Saavedra López.
+# License: BSD Style.
+##################################################
+
+
 if [ -z "$1" ]; then
 	read VAR
 else
