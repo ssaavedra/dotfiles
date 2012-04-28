@@ -38,6 +38,7 @@ set cpoptions+=I
 set whichwrap=b,s,[,]
 set wildmode=full
 set nobackup
+set timeoutlen=220 " Default time for ESC is so much
 
 " Different colorschemes I picked..
 colorscheme default

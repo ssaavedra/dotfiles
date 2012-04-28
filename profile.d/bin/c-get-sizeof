@@ -1,0 +1,30 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+	read VAR
+else
+	VAR=$1
+fi
+
+FILE=$RANDOM
+
+gcc -x c - -o $FILE <<EOF
+#include <stdio.h>
+#include <limits.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/shm.h>
+#include <sys/types.h>
+
+int
+main() {
+	printf("$VAR has size %lu bytes\n", sizeof($VAR));
+	unlink("$FILE");
+	return 0;
+}
+EOF
+
+exec ./$FILE
+

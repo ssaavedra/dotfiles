@@ -43,4 +43,10 @@ alias sbcl="rlwrap sbcl"
 ## Useful only in Archlinux, doesn't hurt
 alias pacman="sudo pacman"
 
+# bash specific
+
+shopt -s cdspell
+shopt -s histappend
+shopt -s histverify
+
 

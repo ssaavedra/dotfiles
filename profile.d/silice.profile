@@ -48,12 +48,14 @@ platform-specific () {
 # Gem user path
 	PATH="${PATH}:${HOME}/.gem/ruby/1.8/bin"
 	export PATH
+
+	export HISTFILESIZE=50000
 }
 
 
-UNIDIR="~/UDC-Dropbox/Dropbox/Uni"
-EIDIR="${UNIDIR}/"
-CURRENTCOURSE=Q5
+UNIDIR="${HOME}/UDC-Dropbox/Dropbox/Uni"
+EIDIR="${UNIDIR}"
+CURRENTCOURSE=Q6
 
 . $HOME/.profile.d/loader.profile
 
