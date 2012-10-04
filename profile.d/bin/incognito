@@ -1,0 +1,16 @@
+#!/bin/sh
+##################################################
+# Executes Chromium (or google-chrome) in a
+# optirun case (if available) at incognito mode
+# directly.
+#
+##################################################
+# Author: Santiago Saavedra López
+# License: BSD Style
+##################################################
+
+OPTIRUN=`which optirun`
+CHROME=`which chromium-browser || which google-chrome || which chromium`
+
+exec $OPTIRUN $CHROME --incognito
+
