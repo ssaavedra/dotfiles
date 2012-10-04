@@ -40,8 +40,18 @@ alias ec="emacsclient"
 
 alias sbcl="rlwrap sbcl"
 
-## Useful only in Archlinux, doesn't hurt
+## Mangle netstat so it does not resolv DNS names
+## by default. (You can always run
+## $ `which netstat` [options] to get the usual
+## behaviour.
+alias netstat="netstat -n"
+
+## Useful commands to be run with elevated privileges.
+# Archlinux's pacman
 alias pacman="sudo pacman"
+# Fedora's yum
+alias yum="sudo yum"
+# Debian's apt
 
 # bash specific
 
