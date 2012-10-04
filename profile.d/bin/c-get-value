@@ -1,29 +1,48 @@
 #!/bin/bash
 
 ##################################################
-# basic program for telling C types size
+# Basic program for telling C values
 # 
-# I felt I was in need of something like
-# this to get sizes and align something in memory.
-# Then I just coded it.
+# This script lets you put a C expression and
+# automatically creates, compiles and executes
+# a C program that does exactly that operation
+# and then outputs the result.
 #
 # The executable image deletes itself upon
 # execution, so it does not clutter space.
+#
 ##################################################
 # Author: Santiago Saavedra López.
 # License: BSD Style.
 ##################################################
 
 
-if [ -z "$1" ]; then
+if [ -z "$1" -o "$1" = "-" ]; then
+	printf "Expression: "
 	read VAR
 else
-	VAR=$1
+	VAR="$1"
+fi
+
+if [ -z "$2" ]; then
+	printf "Library: "
+	read LIBRARY
+else
+	LIBRARY="$2"
 fi
 
 FILE=$RANDOM
 
-gcc -x c - -o $FILE <<EOF
+CC=${CC:-cc}
+COPTS="-x c - -o $FILE"
+
+if [ "x$3" = "x-d" ]; then
+	# Show source
+	CC=cat
+	COPTS=''
+fi
+
+$CC $COPTS <<EOF
 #include <stdio.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -32,10 +51,11 @@ gcc -x c - -o $FILE <<EOF
 #include <sys/stat.h>
 #include <sys/shm.h>
 #include <sys/types.h>
+#include <$LIBRARY>
 
 int
 main() {
-	printf("$VAR has size %lu bytes\n", sizeof($VAR));
+	printf("$VAR = %d [0x%x] [%p]\n", ($VAR), $VAR, (void*)$VAR);
 	unlink("$FILE");
 	return 0;
 }
