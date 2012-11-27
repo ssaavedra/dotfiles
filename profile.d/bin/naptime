@@ -1,0 +1,77 @@
+#!/bin/bash
+##################################################
+# naptime. This script allows me to put the
+# computer into sleep mode.
+# I use it mainly from i3 (i3wm.org), as it seems
+# to me the most straightforward way of
+# suspending the machine.
+#
+# Works in Fedora 17 with pm-utils
+# It requires either a command for elevating
+# permissions, or a tuned pm-suspend which will
+# work for non-root users.
+#
+##################################################
+## Author: Santiago Saavedra López.
+## License: GNU General Public License version 3
+##################################################
+
+# Auth may be any of:
+#  - sudo
+#  - gksudo
+#  - kdesu
+#  - pkexec
+#  --- Or basically anything which will elevate
+#      your permissions.
+AUTHCMD=pkexec
+
+# SUSPEND is the command which suspends the machine
+SUSPEND="pm-suspend"
+
+do_sleep_userspace() {
+	## Sets volume to 0%
+	# Now I have moved this to pm-utils/sleep.d
+	# amixer sset 'Master' 0%
+	i3lock -d
+}
+
+unwind_sleep_userspace() {
+	killall i3lock
+}
+
+do_sleep_su() {
+	pm-suspend
+	return $?
+}
+
+do_sleep () {
+	i3lock && $AUTHCMD pm-suspend
+}
+
+usage () {
+	echo "$1 [long]"
+	echo "Suspends the machine showing a lockscreen."
+	echo "The <long> option, when supplied, hibernates"
+	echo "the computer instead of suspending."
+	exit 1
+}
+
+if [[ "$1" = "-h" || "$1" = "--help" ]]; then
+	usage $0
+fi
+
+if [[ "$1" = "long" ]]; then
+	SUSPEND="pm-hibernate"
+fi
+
+if [[ $( id -u ) -ne 0 ]]; then
+	do_sleep_userspace
+	$AUTHCMD $0
+	if [ $? -ne 0 ]; then
+		unwind_sleep_userspace
+	fi
+else
+	do_sleep_su
+fi
+
+
