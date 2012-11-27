@@ -1,0 +1,12 @@
+#!/bin/sh
+##################################################
+# This scripts allows me to create a new X
+# server with another (or the same) window
+# manager.
+##################################################
+## Author: Santiago Saavedra López.
+## License: GNU General Public License version 3
+##################################################
+
+sx i3
+
