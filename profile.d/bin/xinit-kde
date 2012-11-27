@@ -1,6 +1,12 @@
 #!/bin/sh
+##################################################
+# This scripts allows me to create a new X
+# server with another (or the same) window
+# manager.
+##################################################
+## Author: Santiago Saavedra López.
+## License: GNU General Public License version 3
+##################################################
 
-unset DBUS_SESSION_BUS_ADDRESS
-
-exec xinit /usr/bin/startkde -- :1
+exec st startkde
 

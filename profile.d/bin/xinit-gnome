@@ -8,9 +8,5 @@
 ## License: GNU General Public License version 3
 ##################################################
 
-
-#unset DBUS_SESSION_BUS_ADDRESS
-#exec xinit /usr/bin/gnome-session -- :1
-
-exec xinit /usr/bin/dbus-launch /usr/bin/gnome-session -- :1
+exec st gnome-session
 

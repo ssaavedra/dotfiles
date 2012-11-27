@@ -8,5 +8,5 @@
 ## License: GNU General Public License version 3
 ##################################################
 
-sx i3
+exec st i3
 
