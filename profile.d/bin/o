@@ -22,8 +22,9 @@ if [ "$OSNAME" == "Darwin" ]; then
 	## Just open file
 	cmd="open"
 else
-	## TODO: Difference between gnome and other window managers
-	cmd="gnome-open"
+	# XDG is freedesktop's framework for letting users
+	# use their own tools to do the job.
+	cmd="xdg-open"
 fi
 
 if [ -z "$1" ]; then
