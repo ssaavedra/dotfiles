@@ -1,0 +1,19 @@
+#!/bin/sh
+##################################################
+# This scripts allows me to create a new X
+# server with another (or the same) window
+# manager.
+##################################################
+## Author: Santiago Saavedra López.
+## License: GNU General Public License version 3
+##################################################
+
+program=`which $1`
+
+#unset DBUS_SESSION_BUS_ADDRESS
+#exec xinit $program -- :1
+
+chdir "$HOME"
+cd "$HOME"
+exec xinit /usr/bin/dbus-launch --exit-with-session "$program" -- :1
+
