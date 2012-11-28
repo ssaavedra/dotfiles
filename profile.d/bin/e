@@ -30,6 +30,18 @@
 
 ### E is a helper to get an emacs session from a screen.
 
+if ! pidof emacs >/dev/null; then
+	emacs --daemon
+fi
+
+if [ -z "$1" ]; then
+	emacsclient -c -n
+else
+	emacsclient $@
+fi
+
+exit
+
 pid=$(emacs-autospawn)
 TMP=${TMPDIR:-/tmp}
 scd=$TMP/screen-emacs
