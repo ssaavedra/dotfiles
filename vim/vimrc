@@ -39,12 +39,13 @@ set whichwrap=b,s,[,]
 set wildmode=full
 set nobackup
 set timeoutlen=220 " Default time for ESC is so much
+set title " Set title in terminals to [file] - VIM
 
 " Different colorschemes I picked..
-colorscheme default
-colorscheme desert256
-colorscheme pablo
-colorscheme elflord
+"colorscheme default
+"colorscheme desert256
+"colorscheme pablo
+"colorscheme elflord
 colorscheme molokai
 
 
@@ -115,7 +116,7 @@ set foldnestmax=4
 autocmd FileType fortran let fortran_free_source=1
 autocmd FileType fortran let fortran_have_tabs=1
 
-" TeX 
+" TeX
 autocmd FileType tex nnoremap <Leader>pl :pdflatex %<CR><CR>
 
 
@@ -151,7 +152,6 @@ autocmd BufRead *.md set filetype=markdown
 cnoreab wv vsplit
 cnoreab ws split
 cnoreab dir vsplit %:p:h
-
 
 
 
