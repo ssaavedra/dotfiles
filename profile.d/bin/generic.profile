@@ -21,6 +21,7 @@
 
 
 export EDITOR=vim
+export TERMINAL=gnome-terminal
 
 
 test -z ${UNIDIR:?is unset}
@@ -34,8 +35,8 @@ export CDPATH=$EIDIR/${CURRENTCOURSE:?is unset}:$CDPATH
 ## LS Options
 export LSOPTIONS="$LSOPTIONS -pG"
 
-alias l="ls -l \$LSOPTIONS"
-alias ll="ls -lA \$LSOPTIONS"
+alias l="ls -l $LSOPTIONS"
+alias ll="ls -lA $LSOPTIONS"
 alias ec="emacsclient"
 
 alias sbcl="rlwrap sbcl"
@@ -55,8 +56,10 @@ alias yum="sudo yum"
 
 # bash specific
 
-shopt -s cdspell
-shopt -s histappend
-shopt -s histverify
+if [ "$SHELL" = "/bin/bash" ]; then
+	shopt -s cdspell
+	shopt -s histappend
+	shopt -s histverify
+fi
 
 
