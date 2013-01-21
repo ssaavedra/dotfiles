@@ -20,8 +20,10 @@
 # . .profile.d/loader.profile
 #
 
-
-if [ `uname` = "Darwin" ]; then
+# If we are inside zsh, let's get the path
+if [ $(basename $SHELL) = zsh ]; then
+	WD=$(dirname $0)
+elif [ `uname` = "Darwin" ]; then
 	WD=$(dirname ${BASH_SOURCE[0]})
 else
 	WD=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
