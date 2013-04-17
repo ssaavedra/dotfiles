@@ -23,7 +23,7 @@
 #  - pkexec
 #  --- Or basically anything which will elevate
 #      your permissions.
-AUTHCMD=pkexec
+AUTHCMD=sudo
 
 # SUSPEND is the command which suspends the machine
 SUSPEND="pm-suspend"
@@ -31,8 +31,8 @@ SUSPEND="pm-suspend"
 do_sleep_userspace() {
 	## Sets volume to 0%
 	# Now I have moved this to pm-utils/sleep.d
-	# amixer sset 'Master' 0%
-	i3lock -d
+	amixer sset 'Master' 0%
+	i3lock
 }
 
 unwind_sleep_userspace() {
@@ -66,7 +66,11 @@ fi
 
 if [[ $( id -u ) -ne 0 ]]; then
 	do_sleep_userspace
-	$AUTHCMD $0
+	if [[ $INSIDE_SYSTEMD ]]; then
+		echo "Already inside systemd. Not sleeping."
+	else
+		$AUTHCMD $0
+	fi
 	if [ $? -ne 0 ]; then
 		unwind_sleep_userspace
 	fi

@@ -55,7 +55,8 @@ $CC $COPTS <<EOF
 
 int
 main() {
-	printf("$VAR = %d [0x%x] [%p]\n", ($VAR), $VAR, (void*)$VAR);
+	//printf("$VAR = %d [0x%x] [%p]\n", ($VAR), $VAR, (void*)$VAR);
+	printf("$VAR = %d [0x%x]\n", ($VAR), $VAR);
 	unlink("$FILE");
 	return 0;
 }
