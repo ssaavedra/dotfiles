@@ -1,0 +1,47 @@
+#!/bin/bash
+
+##################################################
+# Extends `make` by running the specified "made"
+# program after it is compiled successfully
+# (with arguments if provided)
+##################################################
+## Author: Santiago Saavedra López.
+## License: MIT License.
+##################################################
+
+MAKE=${MAKE:-make}
+
+if ! which "$MAKE" >/dev/null; then
+	echo "Make not installed or otherwise not found."
+	echo "Please, be sure to include make in your PATH or pass me \$MAKE as an environment variable."
+	exit 1
+fi
+
+makeargs=
+program=
+
+swallow () {
+	if [[ "$1" == "--" ]]; then
+		shift
+		return 1
+	fi
+	makeargs="$makeargs $1"
+	if [[ "$1" != "" ]]
+	then
+		if find . -name "$1"'.*' > /dev/null; then
+			program="$1"
+		fi
+	fi
+	shift
+}
+
+while swallow $1; do
+	shift
+	sleep 0
+done
+
+$MAKE $makeargs && exec $PWD/$program $@
+
+return $?
+
+
