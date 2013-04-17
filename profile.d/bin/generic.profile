@@ -53,10 +53,11 @@ alias pacman="sudo pacman"
 # Fedora's yum
 alias yum="sudo yum"
 # Debian's apt
+alias apt-get="sudo apt-get"
 
 # bash specific
 
-if [ "$SHELL" = "/bin/bash" ]; then
+if [ "$SHELL" = "/bin/bash" -a "$ZSH_NAME" != "zsh" ]; then
 	shopt -s cdspell
 	shopt -s histappend
 	shopt -s histverify
