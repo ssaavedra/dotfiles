@@ -15,5 +15,8 @@ program=`which $1`
 
 chdir "$HOME"
 cd "$HOME"
-exec xinit /usr/bin/dbus-launch --exit-with-session "$program" -- :1
+
+export DISPLAY=":$(( $(echo $DISPLAY|sed 's/^://') + 1 ))"
+
+exec xinit /usr/bin/dbus-launch --exit-with-session "$program" -- $DISPLAY
 
