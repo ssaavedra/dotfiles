@@ -1,0 +1,41 @@
+#!/bin/sh
+
+##################################################
+# Basic script to run JVPN with my settings for
+# the University of A Coruna.
+#
+# It automatically starts or stops depending on
+# whether it is currently started or not.
+#
+##################################################
+# Author: Santiago Saavedra López.
+# License: BSD Style.
+##################################################
+
+
+debug () {
+	echo $@
+}
+
+if [ -z "$1" ]; then
+	debug "Determining action automatically"
+	ACTION=start
+	if pidof ncui >/dev/null; then
+		ACTION=stop
+	fi
+else
+	ACTION=$1
+fi
+
+case $ACTION in
+	start)
+		~/.juniper_networks/network_connect/jvpn/bin/jvpn -s udc
+		;;
+	stop)
+		pkill ncui
+		;;
+	*)
+		echo "Action $ACTION not understood.."
+		;;
+esac
+

@@ -1,0 +1,37 @@
+#!/bin/sh
+
+##################################################
+# This script wraps openvpn.
+# Used to automate starting/stopping
+# my VPN with systemctl with less characters.
+# 
+##################################################
+# Author: Santiago Saavedra López.
+# License: BSD Style.
+##################################################
+
+
+debug () {
+	echo $@
+}
+
+if [ -z "$1" ]; then
+	debug "Determining action automatically"
+	ACTION=start
+	if pidof openvpn >/dev/null; then
+		ACTION=stop
+	fi
+else
+	ACTION=$1
+fi
+
+SVCNAME=myk
+
+if [ ! -z "$2" ]; then
+	SVCNAME="$SVCNAME$2"
+	debug "Using service $SVCNAME..."
+fi
+
+echo "systemctl $ACTION openvpn@$SVCNAME.service..."
+exec sudo systemctl $ACTION openvpn@$SVCNAME.service
+#exec sudo openvpn --cd /etc/openvpn/ --config /etc/openvpn/silice.conf
