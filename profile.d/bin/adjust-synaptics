@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "Adjusting synclient..."
+
+synclient \
+	TapButton1=1 \
+	TapButton2=3 \
+	TapButton3=2 \
+	PalmDetect=1 \
+	HorizTwoFingerScroll=1 \
+	LockedDrags=1 \
+	LockedDragTimeout=400 \
+	ThumbWidth=8
+#	PalmTopMinZ=255 \
+

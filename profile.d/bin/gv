@@ -1,0 +1,24 @@
+#!/bin/bash
+defaults=(evince)
+
+# Correct this so "which gv" does not return my own script..
+#if which "gv"; then
+if false; then
+	$(which "gv") $@
+	exit $?
+else
+done=""
+
+	for p in $defaults; do
+		if which $p ; then
+			done=true
+			$p $@
+			exit $?
+		fi
+	done
+	if [ -z $done ]; then
+		# Try anyway
+		open $@
+	fi
+fi
+
