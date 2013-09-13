@@ -21,7 +21,7 @@
 
 
 export EDITOR=vim
-export TERMINAL=gnome-terminal
+export TERMINAL=terminator
 
 
 test -z ${UNIDIR:?is unset}

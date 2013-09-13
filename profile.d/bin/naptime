@@ -32,7 +32,7 @@ do_sleep_userspace() {
 	## Sets volume to 0%
 	# Now I have moved this to pm-utils/sleep.d
 	# amixer sset 'Master' 0%
-	i3lock -d
+	i3lock
 }
 
 unwind_sleep_userspace() {
