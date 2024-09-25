@@ -1,0 +1,101 @@
+# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
+# exists.
+# see /usr/share/doc/bash/examples/startup-files for examples.
+# the files are located in the bash-doc package.
+
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+#umask 022
+
+# set -x
+
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+	. "$HOME/.bashrc"
+    fi
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/usr/bin" ] ; then
+    PATH="$HOME/usr/bin:$PATH"
+fi
+
+
+# Quickly check if we need to upgrade the _docker completions, if the cli tools are mounted in WSL
+# if [[ -f  /mnt/wsl/docker-desktop/cli-tools/usr/share/zsh/vendor-completions/_docker ]]; then
+#   if [[ $(stat -c %Y /mnt/wsl/docker-desktop/cli-tools/usr/share/zsh/vendor-completions/_docker) -gt $(stat -c %Y /usr/share/zsh/vendor-completions/_docker) ]]; then
+# 	echo "Trying to update docker completions... (you may be asked for sudo password)"
+# 	sudo cp /mnt/wsl/docker-desktop/cli-tools/usr/share/zsh/vendor-completions/_docker /usr/share/zsh/vendor-completions/_docker
+#   fi
+#fi
+
+
+eval "$(fasd --init auto)"
+# autoload -U antigen || true
+# fpath=(~/.zsh/completion $fpath)
+source $HOME/.antidote/antidote.zsh
+antidote load ${ZDOTDIR:-$HOME}/.zsh_plugins.txt
+ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd completion history)
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+
+
+## NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+## END NVM
+
+## Several non-wsl things
+alias ls="ls --color=auto"
+alias ll="ls -la"
+
+export EDITOR=vim
+
+PS1='%F{green}%n@%m%f:%F{blue}%1~%f %# '
+autoload -Uz vcs_info
+precmd () { vcs_info }
+RPROMPT=$vcs_info_msg_0_
+
+# _aws=$(which aws)
+# aws () {
+# 	if [[ "$AWS_ACCESS_KEY_ID" ]]; then
+# 		$_aws "$@"
+# 	else
+# 		# Ask for data
+# 		echo "No AWS_ACCESS_KEY_ID in the environment. Please paste your credentials in this terminal."
+# 		eval "$(cat)"
+# 		aws "$@"
+# 	fi
+# }
+
+# Homebrew
+# Set PATH, MANPATH, etc., for Homebrew, if it exists
+if [[ -d "/home/linuxbrew/.linuxbrew/bin" ]]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
+# Add yarn global packages to PATH, if the directory exists
+if [[ -d "$HOME/.yarn/bin" ]]; then
+  export PATH="$HOME/.yarn/bin:$PATH"
+fi
+
+
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
