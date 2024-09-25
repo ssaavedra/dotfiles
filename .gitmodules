@@ -1,0 +1,3 @@
+[submodule "fakebg/Linux-Fake-Background-Webcam"]
+	path = fakebg/Linux-Fake-Background-Webcam
+	url = ./

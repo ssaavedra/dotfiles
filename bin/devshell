@@ -1,0 +1,151 @@
+#!/bin/env python3
+
+import subprocess
+import os
+import time
+
+
+tmux_binary = "/usr/bin/tmux"
+
+
+class TmuxSession:
+    def __init__(self, session_name):
+        self.session_name = session_name
+
+    def check_session(self):
+        """Check if the tmux session is running"""
+        result = subprocess.run(  # noqa: S603
+            [tmux_binary, "has-session", "-t", self.session_name],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        return result.returncode == 0
+
+    def get_panes(self):
+        """Get the panes of the session"""
+        panes = subprocess.run(  # noqa: S603
+            [tmux_binary, "list-panes", "-t", f"{self.session_name}"],
+            stdout=subprocess.PIPE,
+        )
+        return panes.stdout.decode("utf-8").strip().split("\n")
+
+    def create_session(self, command_list: list[list[str]] = []):
+        """Create a new tmux session with two panes."""
+        subprocess.run([tmux_binary, "new-session", "-d", "-s", self.session_name])  # noqa: S603
+
+        ## Add mouse support on this session
+        subprocess.run(  # noqa: S603
+            [tmux_binary, "set", "mouse", "on"]
+        )
+
+        for pane_index, pane in enumerate(command_list):
+            pane_name = f"0.{pane_index}"
+
+            while not self.is_pane_ready(pane_name):
+                time.sleep(1)
+
+            subprocess.run(  # noqa: S603
+                [
+                    tmux_binary,
+                    "send-keys",
+                    "-t",
+                    f"{self.session_name}:{pane_name}",
+                    *pane,
+                    "C-m",
+                ]
+            )
+
+            # Split the window
+            subprocess.run(  # noqa: S603
+                [tmux_binary, "split-window", "-v", "-t", f"{self.session_name}"]
+            )
+
+        # Remove last pane
+        subprocess.run(  # noqa: S603
+            [
+                tmux_binary,
+                "kill-pane",
+                "-t",
+                f"{self.session_name}:0.{len(command_list)}",
+            ]
+        )
+
+    def attach_session(self):
+        """
+        Check if we are inside a TMUX. If we are, change to the appropriate shell, otherwise launch a tmux attached to the session
+        """
+        if "TMUX" not in os.environ:
+            self._attach_session()
+        else:
+            # Change to the appropriate shell
+            subprocess.run(  # noqa: S603
+                [tmux_binary, "switch-client", "-t", self.session_name]
+            )
+
+    def _attach_session(self):
+        """Attach to the tmux session, as an execve, leaving the python environment"""
+
+        os.execvp(tmux_binary, [tmux_binary, "attach-session", "-t", self.session_name])  # noqa: S606
+
+    def capture_pane(self, pane_number):
+        """Check if the pane is ready"""
+        result = subprocess.run(  # noqa: S603
+            [
+                tmux_binary,
+                "capture-pane",
+                "-p",
+                "-t",
+                f"{self.session_name}:{pane_number}",
+            ],
+            stdout=subprocess.PIPE,
+        )
+        return result.stdout.decode("utf-8")
+
+    def is_pane_ready(self, pane_number):
+        """Check if the pane is ready by checking if it ends in a "%" sign (as a shell)"""
+
+        captured_pane = self.capture_pane(pane_number)
+        return captured_pane.strip().split("\n")[-1].endswith("%")
+
+
+# Custom lists of panes
+
+DEV_ENVIRONMENTS = {
+    "apiday": [
+        [
+            "cd /home/ssaavedra/projects/apiday/apiday/backend",
+            "C-m",
+            "uv tool run pipenv run ./manage.py runserver",
+        ],
+        ["cd /home/ssaavedra/projects/apiday/apiday/frontend", "C-m", "npm run dev"],
+        ["cd /home/ssaavedra/projects/apiday/apiday/backend", "C-m", "uv tool run pipenv shell"],
+    ],
+}
+
+
+if __name__ == "__main__":
+    # First argument is the session name
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Create a development tmux session")
+    parser.add_argument("session_name", type=str, help="The name of the tmux session")
+    args = parser.parse_args()
+
+    session_name = args.session_name
+
+    tmux_session = TmuxSession(session_name + "-dev")
+
+    if session_name not in DEV_ENVIRONMENTS:
+        print(f"Session {session_name} not found")
+        print("Available sessions:")
+        for session in DEV_ENVIRONMENTS:
+            print(f"  - {session}")
+        print(
+            f"Othewrise, add the session to the DEV_ENVIRONMENTS dictionary in {__file__}"
+        )
+        exit(1)
+
+    if not tmux_session.check_session():
+        print(f"Creating session {session_name}")
+        tmux_session.create_session(DEV_ENVIRONMENTS[session_name])
+    tmux_session.attach_session()

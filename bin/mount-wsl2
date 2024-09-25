@@ -1,0 +1,22 @@
+#!/bin/bash
+
+MOUNTPOINT=/run/user/$UID/wsl1
+
+mount () {
+	echo "Mounting"
+	mkdir "$MOUNTPOINT"
+LIBGUESTFS_BACKEND=direct guestmount -a "/run/media/$USER/B2DA6363DA632339/Users/Santiago/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/ext4.vhdx" -i "$MOUNTPOINT"
+}
+
+unmount () {
+	echo "Unmounting"
+	guestunmount "$MOUNTPOINT"
+	rmdir "$MOUNTPOINT"
+}
+
+if [[ -d "$MOUNTPOINT" ]]; then
+	unmount
+else
+	mount
+fi
+

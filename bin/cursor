@@ -1,0 +1,38 @@
+#!/bin/bash
+
+CURSOR_VERSION=0.41.2
+
+export ELECTRON_OZONE_PLATFORM_HINT=auto
+dir="$(dirname "${BASH_SOURCE[0]}")/../cache/"
+cursor_binary=cursor-${CURSOR_VERSION}x86_64.AppImage
+
+# Download cursor from  if not available yet
+if [[ ! -f "$dir/$cursor_binary" ]]; then
+    echo "Downloading cursor..."
+    # Check that the version downloaded is the same as the one in the script, after redirects
+    URL="https://downloader.cursor.sh/linux/appImage/x64"
+
+    (cd "$dir" && curl -O --remote-header-name --location "$URL")
+
+    # Check that we donwloaded the correct file
+    if [[ ! -f "$dir/$cursor_binary" ]]; then
+        echo "We probably downloaded an updated version."
+        echo "Please update the version in the script."
+        echo
+        echo "The downloaded file is:"
+        echo cursor-*.AppImage
+        echo
+        echo "But we expected $cursor_binary ($CURSOR_VERSION)"
+        echo
+        echo "Please edit this script, at ${BASH_SOURCE[0]}, with the new version."
+        exit 1
+    else
+	chmod +x $dir/$cursor_binary
+    fi
+
+
+fi
+
+exec "$dir/$cursor_binary" "$@"
+
+
